@@ -1,10 +1,11 @@
+
 // ========== CONFIGURATION ==========
 const GITHUB_CONFIG = {
     owner: 'Special-Srit',
     repo: 'Swjb_CivilOneStop',
     branch: 'main',
     path: '',
-    token: ''
+    token: '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'
 };
 // ===================================
 
