@@ -26,7 +26,7 @@ jobs:
                 size: .size,
                 url: .html_url,
                 download_url: .download_url
-              }]' > Hub_resources(No_Components)/components.json
+              }]' > Hub_resources/components.json
 
       - name: Commit and push component data
         run: |
