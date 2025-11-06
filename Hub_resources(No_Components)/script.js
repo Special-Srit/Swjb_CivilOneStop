@@ -4,9 +4,10 @@ const GITHUB_CONFIG = {
     repo: 'Swjb_CivilOneStop',
     branch: 'main',
     path: '',
-    token: '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'
+    token: ''
 };
 // ===================================
+
 
 let allComponents = [];
 let currentCategory = 'all';
