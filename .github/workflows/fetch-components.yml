@@ -1,0 +1,37 @@
+name: Generate Component Index
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch component list from GitHub API
+        run: |
+          echo "Fetching components..."
+          curl -s -H "Accept: application/vnd.github.v3+json" \
+               -H "Authorization: token ${{ secrets.GH_API_TOKEN || secrets.GITHUB_TOKEN }}" \
+               https://api.github.com/repos/Special-Srit/Swjb_CivilOneStop/contents/ \
+            | jq '[.[] | select(.name | endswith(".html")) | {
+                name: .name,
+                path: .path,
+                size: .size,
+                url: .html_url,
+                download_url: .download_url
+              }]' > Hub_resources(No_Components)/components.json
+
+      - name: Commit and push component data
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add Hub_resources(No_Components)/components.json
+          git commit -m "Update component index [skip ci]" || echo "No changes"
+          git push

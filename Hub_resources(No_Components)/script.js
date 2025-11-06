@@ -271,3 +271,15 @@ function searchComponents() {
 document.getElementById('searchInput').addEventListener('input', searchComponents);
 
 window.addEventListener('DOMContentLoaded', init);
+
+async function fetchRepoContents() {
+    try {
+        const response = await fetch('Hub_resources(No_Components)/components.json');
+        if (!response.ok) throw new Error('Failed to load component list');
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error loading local component list:', error);
+        throw error;
+    }
+}
