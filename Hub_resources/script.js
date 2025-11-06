@@ -1,14 +1,10 @@
-
-// ========== CONFIGURATION ==========
 const GITHUB_CONFIG = {
     owner: 'Special-Srit',
     repo: 'Swjb_CivilOneStop',
     branch: 'main',
     path: '',
-    token: ''
+    token: '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' // read token from env
 };
-// ===================================
-
 
 let allComponents = [];
 let currentCategory = 'all';
@@ -274,7 +270,7 @@ window.addEventListener('DOMContentLoaded', init);
 
 async function fetchRepoContents() {
     try {
-        const response = await fetch('Hub_resources(No_Components)/components.json');
+        const response = await fetch('Hub_resources/components.json');
         if (!response.ok) throw new Error('Failed to load component list');
         const data = await response.json();
         return data;
@@ -283,3 +279,4 @@ async function fetchRepoContents() {
         throw error;
     }
 }
+
