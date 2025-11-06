@@ -5,7 +5,7 @@ const GITHUB_CONFIG = {
     repo: 'Swjb_CivilOneStop',
     branch: 'main',
     path: '',
-    token: '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'
+    token: ''
 };
 // ===================================
 
