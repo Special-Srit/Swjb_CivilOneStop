@@ -1,4 +1,4 @@
-name: Generate Component Index
+name: Update Component Data
 
 on:
   push:
@@ -7,31 +7,46 @@ on:
   workflow_dispatch:
 
 jobs:
-  generate:
+  fetch-and-commit:
     runs-on: ubuntu-latest
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # needed for git history
 
-      - name: Fetch component list from GitHub API
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
         run: |
-          echo "Fetching components..."
-          curl -s -H "Accept: application/vnd.github.v3+json" \
-               -H "Authorization: token ${{ secrets.GH_API_TOKEN || secrets.GITHUB_TOKEN }}" \
-               https://api.github.com/repos/Special-Srit/Swjb_CivilOneStop/contents/ \
-            | jq '[.[] | select(.name | endswith(".html")) | {
-                name: .name,
-                path: .path,
-                size: .size,
-                url: .html_url,
-                download_url: .download_url
-              }]' > Hub_resources/components.json
+          npm install
+
+      - name: Fetch component data
+        run: |
+          echo "Fetching components from GitHub API..."
+          # Run your Node.js script to update components.json
+          node Hub_resources/script.js
+          echo "Fetch complete"
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Commit and push component data
         run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
           git add Hub_resources/components.json
-          git commit -m "Update component index [skip ci]" || echo "No changes"
-          git push
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Update component data"
+            git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
+          else
+            echo "No changes to commit"
+          fi
