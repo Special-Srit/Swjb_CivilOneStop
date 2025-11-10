@@ -325,7 +325,7 @@ jobs:
                   
                   .header-links {
                       display: flex;
-                      gap: 32px;
+                      gap: 12px;
                       align-items: center;
                   }
                   
@@ -341,7 +341,7 @@ jobs:
                       color: var(--text-primary); 
                   }
                   
-                  .theme-toggle {
+                  .theme-toggle, .lang-toggle {
                       background: var(--bg-tertiary);
                       border: 1px solid var(--border-color);
                       border-radius: 20px;
@@ -356,43 +356,9 @@ jobs:
                       gap: 6px;
                   }
                   
-                  .theme-toggle:hover {
+                  .theme-toggle:hover, .lang-toggle:hover {
                       background: var(--bg-secondary);
                       transform: scale(1.02);
-                  }
-                  
-                  /* Navigation */
-                  nav {
-                      background: var(--bg-primary);
-                      border-bottom: 1px solid var(--border-color);
-                  }
-                  
-                  .nav-container {
-                      max-width: 1400px;
-                      margin: 0 auto;
-                      padding: 0 40px;
-                      display: flex;
-                      gap: 8px;
-                  }
-                  
-                  .nav-item {
-                      padding: 12px 20px;
-                      cursor: pointer;
-                      font-size: 14px;
-                      font-weight: 500;
-                      color: var(--text-secondary);
-                      border-bottom: 2px solid transparent;
-                      transition: all 0.2s;
-                      letter-spacing: -0.2px;
-                  }
-                  
-                  .nav-item:hover { 
-                      color: var(--text-primary); 
-                  }
-                  
-                  .nav-item.active {
-                      color: var(--accent-color);
-                      border-bottom-color: var(--accent-color);
                   }
                   
                   /* Main Content */
@@ -662,7 +628,7 @@ jobs:
                   
                   /* Responsive */
                   @media (max-width: 768px) {
-                      .header-container, .nav-container, main, .footer-container {
+                      .header-container, main, .footer-container {
                           padding-left: 20px;
                           padding-right: 20px;
                       }
@@ -672,7 +638,7 @@ jobs:
                       .component-grid { 
                           grid-template-columns: 1fr; 
                       }
-                      .header-links { 
+                      .header-link { 
                           display: none; 
                       }
                       .loader-content { 
@@ -688,7 +654,7 @@ jobs:
               <div id="loader-overlay">
                   <div class="loader-content">
                       <div class="logo-icon">📦</div>
-                      <h3>Loading CivilOneStop Hub</h3>
+                      <h3 data-i18n="loader.title">Loading CivilOneStop Hub</h3>
                       <div class="progress-bar-container">
                           <div class="progress-bar-indeterminate"></div>
                       </div>
@@ -700,13 +666,17 @@ jobs:
                   <div class="header-container">
                       <div class="logo">
                           <div class="logo-icon">📦</div>
-                          <span>CivilOneStop Hub</span>
+                          <span data-i18n="header.title">CivilOneStop Hub</span>
                       </div>
                       <div class="header-links">
                           <a href="#" class="header-link" id="githubHeaderLink">GitHub</a>
+                          <button class="lang-toggle" onclick="toggleLanguage()">
+                              <span>🌐</span>
+                              <span id="langText">한국어</span>
+                          </button>
                           <button class="theme-toggle" onclick="toggleTheme()">
                               <span id="themeIcon">🌙</span>
-                              <span id="themeText">Dark</span>
+                              <span id="themeText" data-i18n="theme.dark">Dark</span>
                           </button>
                       </div>
                   </div>
@@ -714,8 +684,8 @@ jobs:
               
               <main>
                   <div class="page-header">
-                      <h1 class="page-title">CivilOneStop Hub</h1>
-                      <p class="page-description">
+                      <h1 class="page-title" data-i18n="main.title">CivilOneStop Hub</h1>
+                      <p class="page-description" data-i18n="main.description">
                           Project: Swjb_CivilOneStop Asset Archive. 
                       </p>
                   </div>
@@ -723,19 +693,19 @@ jobs:
                   <div class="search-container">
                       <div class="search-box">
                           <span class="search-icon">🔍</span>
-                          <input type="text" class="search-input" id="searchInput" placeholder="Search components...">
+                          <input type="text" class="search-input" id="searchInput" data-i18n-placeholder="search.placeholder">
                       </div>
                   </div>
                   
                   <div class="stats-bar" id="statsBar">
                       <div class="stat-item">
-                          <span>Total</span>
+                          <span data-i18n="stats.total">Total</span>
                           <span class="stat-number" id="totalCount">0</span>
-                          <span>components</span>
+                          <span data-i18n="stats.components">components</span>
                       </div>
                       <div class="stat-item">
                           <span class="stat-number" id="categoryCount">0</span>
-                          <span>in category</span>
+                          <span data-i18n="stats.inCategory">in category</span>
                       </div>
                   </div>
                   
@@ -746,14 +716,92 @@ jobs:
                   <div class="footer-container">
                       <div class="repo-info" id="repoInfo"></div>
                       <div class="footer-bottom">
-                          <p>Project: CivilOneStop · Built by @Special-Srit and @minjun0629</p>
+                          <p data-i18n="footer.credits">Project: CivilOneStop · Built by @Special-Srit and @minjun0629</p>
                       </div>
                   </div>
               </footer>
               
               <script>
+                  // Translation data
+                  const translations = {
+                      en: {
+                          'loader.title': 'Loading CivilOneStop Hub',
+                          'header.title': 'CivilOneStop Hub',
+                          'main.title': 'CivilOneStop Hub',
+                          'main.description': 'Project: Swjb_CivilOneStop Asset Archive.',
+                          'search.placeholder': 'Search components...',
+                          'stats.total': 'Total',
+                          'stats.components': 'components',
+                          'stats.inCategory': 'in category',
+                          'theme.dark': 'Dark',
+                          'theme.light': 'Light',
+                          'footer.credits': 'Project: CivilOneStop · Built by @Special-Srit and @minjun0629',
+                          'empty.noResults': 'No results found',
+                          'empty.tryAdjusting': 'Try adjusting your search or filter',
+                          'empty.error': 'Error loading components',
+                          'repo.label': 'Repository:'
+                      },
+                      ko: {
+                          'loader.title': 'CivilOneStop Hub 로딩 중',
+                          'header.title': 'CivilOneStop Hub',
+                          'main.title': 'CivilOneStop Hub',
+                          'main.description': 'Project: Swjb_CivilOneStop 컴포넌트 아카이브',
+                          'search.placeholder': '컴포넌트 검색하기...',
+                          'stats.total': '전체',
+                          'stats.components': '컴포넌트',
+                          'stats.inCategory': '카테고리에 일치하는 수',
+                          'theme.dark': '다크',
+                          'theme.light': '라이트',
+                          'footer.credits': 'Project: CivilOneStop · 제작: @Special-Srit & @minjun0629',
+                          'empty.noResults': '결과 없음',
+                          'empty.tryAdjusting': '검색어나 필터를 조정해보세요',
+                          'empty.error': '컴포넌트 로딩 오류',
+                          'repo.label': '저장소:'
+                      }
+                  };
+
                   let allComponents = [];
                   let currentCategory = 'all';
+                  let currentLang = 'en';
+
+                  // Language Management
+                  function initLanguage() {
+                      const savedLang = localStorage.getItem('language') || 'en';
+                      currentLang = savedLang;
+                      updateLanguage(savedLang);
+                  }
+
+                  function toggleLanguage() {
+                      const newLang = currentLang === 'en' ? 'ko' : 'en';
+                      currentLang = newLang;
+                      localStorage.setItem('language', newLang);
+                      updateLanguage(newLang);
+                  }
+
+                  function updateLanguage(lang) {
+                      // Update all elements with data-i18n attribute
+                      document.querySelectorAll('[data-i18n]').forEach(element => {
+                          const key = element.getAttribute('data-i18n');
+                          if (translations[lang][key]) {
+                              element.textContent = translations[lang][key];
+                          }
+                      });
+
+                      // Update placeholder
+                      const searchInput = document.getElementById('searchInput');
+                      if (searchInput) {
+                          searchInput.placeholder = translations[lang]['search.placeholder'];
+                      }
+
+                      // Update language button
+                      const langText = document.getElementById('langText');
+                      if (langText) {
+                          langText.textContent = lang === 'en' ? '한국어' : 'English';
+                      }
+
+                      // Update theme button text
+                      updateThemeButtonText();
+                  }
 
                   // Theme Management
                   function initTheme() {
@@ -775,10 +823,19 @@ jobs:
                       const text = document.getElementById('themeText');
                       if (theme === 'dark') {
                           icon.textContent = '☀️';
-                          text.textContent = 'Light';
+                          text.setAttribute('data-i18n', 'theme.light');
                       } else {
                           icon.textContent = '🌙';
-                          text.textContent = 'Dark';
+                          text.setAttribute('data-i18n', 'theme.dark');
+                      }
+                      updateThemeButtonText();
+                  }
+
+                  function updateThemeButtonText() {
+                      const text = document.getElementById('themeText');
+                      const key = text.getAttribute('data-i18n');
+                      if (translations[currentLang][key]) {
+                          text.textContent = translations[currentLang][key];
                       }
                   }
 
@@ -828,6 +885,7 @@ jobs:
 
                   async function init() {
                       initTheme();
+                      initLanguage();
                       const startTime = Date.now();
                       const minLoadTime = 1500;
 
@@ -872,8 +930,9 @@ jobs:
                           const repoUrl = repoData.html_url;
                           document.getElementById('githubHeaderLink').href = repoUrl;
 
+                          const repoLabel = translations[currentLang]['repo.label'];
                           document.getElementById('repoInfo').innerHTML = `
-                              <strong>Repository:</strong> 
+                              <strong>${repoLabel}</strong> 
                               <a href="${repoData.html_url}" target="_blank">${repoData.full_name}</a>
                               ${repoData.description ? `<br><small>${repoData.description}</small>` : ''}
                           `;
@@ -899,8 +958,8 @@ jobs:
                               document.getElementById('componentGrid').innerHTML = `
                                   <div class="empty-state">
                                       <div class="empty-state-icon">⚠️</div>
-                                      <div class="empty-state-title">Error loading components</div>
-                                      <p class="empty-state-text">${error.message}. Check console for details.</p>
+                                      <div class="empty-state-title">${translations[currentLang]['empty.error']}</div>
+                                      <p class="empty-state-text">${error.message}</p>
                                   </div>
                               `;
                           }, remainingTime);
@@ -920,8 +979,8 @@ jobs:
                           grid.innerHTML = `
                               <div class="empty-state">
                                   <div class="empty-state-icon">🔍</div>
-                                  <div class="empty-state-title">No results found</div>
-                                  <p class="empty-state-text">Try adjusting your search or filter</p>
+                                  <div class="empty-state-title">${translations[currentLang]['empty.noResults']}</div>
+                                  <p class="empty-state-text">${translations[currentLang]['empty.tryAdjusting']}</p>
                               </div>
                           `;
                           return;
