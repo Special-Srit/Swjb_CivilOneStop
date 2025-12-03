@@ -467,6 +467,33 @@ jobs:
                       gap: 20px;
                   }
                   
+                .download-btn {
+                    margin-top: 16px;
+                    padding: 8px 16px;
+                    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: opacity 0.2s, transform 0.2s;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 6px;
+                }
+
+                .download-btn:hover {
+                    opacity: 0.9;
+                    transform: translateY(-1px);
+                }
+
+                .download-btn:active {
+                    transform: translateY(0);
+                }
+                    
                   .component-card {
                       background: var(--card-bg);
                       border: 1px solid var(--card-border);
@@ -972,39 +999,58 @@ jobs:
                   }
 
                   function renderComponents(componentsToRender) {
-                      const grid = document.getElementById('componentGrid');
-                      grid.innerHTML = '';
+                    const grid = document.getElementById('component-grid');
+                    grid.innerHTML = '';
 
-                      if (componentsToRender.length === 0) {
-                          grid.innerHTML = `
-                              <div class="empty-state">
-                                  <div class="empty-state-icon">🔍</div>
-                                  <div class="empty-state-title">${translations[currentLang]['empty.noResults']}</div>
-                                  <p class="empty-state-text">${translations[currentLang]['empty.tryAdjusting']}</p>
-                              </div>
-                          `;
-                          return;
-                      }
+                    if (componentsToRender.length === 0) {
+                        grid.innerHTML = `
+                            <div class="empty-state">
+                                <div class="empty-state-icon">🔍</div>
+                                <div class="empty-state-title">${translations[currentLang]['empty.noResults']}</div>
+                                <p class="empty-state-text">${translations[currentLang]['empty.tryAdjusting']}</p>
+                            </div>
+                        `;
+                        return;
+                    }
 
-                      componentsToRender.forEach(component => {
-                          const card = document.createElement('div');
-                          card.className = 'component-card';
-                          card.onclick = () => window.open(component.url, '_blank');
-                          
-                          card.innerHTML = `
-                              <div class="component-icon">${component.icon}</div>
-                              <div class="component-name">${component.name}</div>
-                              <div class="component-path">${component.path}</div>
-                              <div class="component-meta">
-                                  <span class="component-tag">${component.category}</span>
-                                  ${component.rootLabel ? `<span class="component-tag">${component.rootLabel}</span>` : ''}
-                                  <span class="component-size">${formatSize(component.size)}</span>
-                              </div>
-                          `;
-                          
-                          grid.appendChild(card);
-                      });
-                  }
+                    componentsToRender.forEach(component => {
+                        const card = document.createElement('div');
+                        card.className = 'component-card';
+
+                        // Open component in new tab on card click (except if clicking the download button)
+                        card.addEventListener('click', (e) => {
+                            if (!e.target.closest('.download-btn')) {
+                                window.open(component.url, '_blank');
+                            }
+                        });
+
+                        card.innerHTML = `
+                            <div class="component-icon">${component.icon}</div>
+                            <div class="component-name">${component.name}</div>
+                            <div class="component-path">${component.path}</div>
+                            <div class="component-meta">
+                                <span class="component-tag">${component.category}</span>
+                                ${component.rootLabel ? `<span class="component-tag">${component.rootLabel}</span>` : ''}
+                                <span class="component-size">${formatSize(component.size)}</span>
+                            </div>
+                            <button class="download-btn" data-url="${component.downloadUrl}">
+                                📥 Download
+                            </button>
+                        `;
+                        grid.appendChild(card);
+                    });
+
+                    // Add event listeners to all download buttons
+                    document.querySelectorAll('.download-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation(); // Prevent card click from triggering
+                            const url = btn.getAttribute('data-url');
+                            if (url) {
+                                window.location.href = url; // or use window.open(url, '_blank');
+                            }
+                        });
+                    });
+                }
 
                   function showCategory(category) {
                       currentCategory = category;
