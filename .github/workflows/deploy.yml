@@ -151,7 +151,7 @@ jobs:
             const repoInfo = await getRepoInfo();
             fs.writeFileSync('_site/repo-info.json', JSON.stringify(repoInfo, null, 2));
             
-            console.log('✅ Data fetched successfully');
+            console.log('✅ Data fetched successfully!');
           }
           
           main().catch(console.error);
