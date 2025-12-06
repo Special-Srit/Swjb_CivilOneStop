@@ -31,7 +31,7 @@ jobs:
         run: |
           mkdir -p _site
           
-          # Create a Node.js script to fetch all HTML files
+          # Create a Node.js script to fetch HTML, CSS, SCSS files
           cat > fetch.js << 'FETCHJS'
           const https = require('https');
           const fs = require('fs');
@@ -66,7 +66,7 @@ jobs:
             });
           }
           
-          async function findHTMLFiles(path = '') {
+          async function findComponentFiles(path = '') {
             console.log('Scanning:', path || 'root');
             const contents = await fetchJSON(path);
             
@@ -75,25 +75,33 @@ jobs:
               return [];
             }
             
-            let htmlFiles = [];
+            let componentFiles = [];
             
             for (const item of contents) {
-              if (item.type === 'file' && item.name.endsWith('.html')) {
-                htmlFiles.push({
-                  name: item.name,
-                  path: item.path,
-                  size: item.size,
-                  html_url: item.html_url,
-                  download_url: item.download_url
-                });
-                console.log('Found HTML:', item.path);
+              if (item.type === 'file') {
+                const lowerName = item.name.toLowerCase();
+                // Check for HTML, CSS, SCSS files, or resources.zip
+                if (lowerName.endsWith('.html') || 
+                    lowerName.endsWith('.css') || 
+                    lowerName.endsWith('.scss') ||
+                    lowerName === 'resources.zip') {
+                  componentFiles.push({
+                    name: item.name,
+                    path: item.path,
+                    size: item.size,
+                    html_url: item.html_url,
+                    download_url: item.download_url,
+                    type: item.type
+                  });
+                  console.log('Found file:', item.path);
+                }
               } else if (item.type === 'dir') {
-                const subFiles = await findHTMLFiles(item.path);
-                htmlFiles = htmlFiles.concat(subFiles);
+                const subFiles = await findComponentFiles(item.path);
+                componentFiles = componentFiles.concat(subFiles);
               }
             }
             
-            return htmlFiles;
+            return componentFiles;
           }
           
           async function getRepoInfo() {
@@ -117,11 +125,21 @@ jobs:
           }
           
           async function main() {
-            console.log('Fetching HTML files...');
-            const htmlFiles = await findHTMLFiles();
-            console.log(`Total HTML files found: ${htmlFiles.length}`);
+            console.log('Fetching component files (HTML, CSS, SCSS)...');
+            const componentFiles = await findComponentFiles();
             
-            fs.writeFileSync('_site/components.json', JSON.stringify(htmlFiles, null, 2));
+            const htmlFiles = componentFiles.filter(f => f.name.toLowerCase().endsWith('.html'));
+            const cssFiles = componentFiles.filter(f => f.name.toLowerCase().endsWith('.css'));
+            const scssFiles = componentFiles.filter(f => f.name.toLowerCase().endsWith('.scss'));
+            const zipFiles = componentFiles.filter(f => f.name.toLowerCase() === 'resources.zip');
+            
+            console.log(`Total files found: ${componentFiles.length}`);
+            console.log(`  - HTML: ${htmlFiles.length}`);
+            console.log(`  - CSS: ${cssFiles.length}`);
+            console.log(`  - SCSS: ${scssFiles.length}`);
+            console.log(`  - Resources.zip: ${zipFiles.length}`);
+            
+            fs.writeFileSync('_site/components.json', JSON.stringify(componentFiles, null, 2));
             
             console.log('Fetching repo info...');
             const repoInfo = await getRepoInfo();
@@ -138,7 +156,7 @@ jobs:
           
           # Show what we found
           echo "Components found:"
-          cat _site/components.json | head -20
+          cat _site/components.json | head -30
       
       - name: Generate HTML
         run: |
