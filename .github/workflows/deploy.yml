@@ -80,11 +80,14 @@ jobs:
             for (const item of contents) {
               if (item.type === 'file') {
                 const lowerName = item.name.toLowerCase();
-                // Check for HTML, CSS, SCSS files, or resources.zip
+                // Check for HTML, CSS, SCSS files, or any .zip files
                 if (lowerName.endsWith('.html') || 
                     lowerName.endsWith('.css') || 
                     lowerName.endsWith('.scss') ||
-                    lowerName === 'resources.zip') {
+                    (lowerName.endsWith('.zip') && 
+                     (lowerName === 'resources.zip' || 
+                      lowerName === 'main.zip' || 
+                      lowerName === 'sub.zip'))) {
                   componentFiles.push({
                     name: item.name,
                     path: item.path,
@@ -131,13 +134,16 @@ jobs:
             const htmlFiles = componentFiles.filter(f => f.name.toLowerCase().endsWith('.html'));
             const cssFiles = componentFiles.filter(f => f.name.toLowerCase().endsWith('.css'));
             const scssFiles = componentFiles.filter(f => f.name.toLowerCase().endsWith('.scss'));
-            const zipFiles = componentFiles.filter(f => f.name.toLowerCase() === 'resources.zip');
+            const zipFiles = componentFiles.filter(f => f.name.toLowerCase().endsWith('.zip'));
             
             console.log(`Total files found: ${componentFiles.length}`);
             console.log(`  - HTML: ${htmlFiles.length}`);
             console.log(`  - CSS: ${cssFiles.length}`);
             console.log(`  - SCSS: ${scssFiles.length}`);
-            console.log(`  - Resources.zip: ${zipFiles.length}`);
+            console.log(`  - ZIP files: ${zipFiles.length}`);
+            if (zipFiles.length > 0) {
+              console.log(`    ZIP files: ${zipFiles.map(f => f.name).join(', ')}`);
+            };
             
             fs.writeFileSync('_site/components.json', JSON.stringify(componentFiles, null, 2));
             
