@@ -143,899 +143,1085 @@ jobs:
       - name: Generate HTML
         run: |
           cat > _site/index.html << 'HTMLEOF'
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-              <meta charset="UTF-8">
-              <meta name="description" content="Project: Swjb_CivilOneStop Asset Archive.">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Component Hub - Swjb_CivilOneStop</title>
-              <style>
-                  :root {
-                      --bg-primary: #ffffff;
-                      --bg-secondary: #f5f5f7;
-                      --bg-tertiary: #ffffff;
-                      --text-primary: #1d1d1f;
-                      --text-secondary: #86868b;
-                      --text-tertiary: #6e6e73;
-                      --border-color: rgba(0, 0, 0, 0.08);
-                      --accent-color: #007aff;
-                      --accent-hover: #0051d5;
-                      --card-bg: rgba(255, 255, 255, 0.8);
-                      --card-border: rgba(0, 0, 0, 0.06);
-                      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-                      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-                      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
-                      --gradient-start: #007aff;
-                      --gradient-end: #5856d6;
-                  }
-                  
-                  [data-theme="dark"] {
-                      --bg-primary: #000000;
-                      --bg-secondary: #1c1c1e;
-                      --bg-tertiary: #2c2c2e;
-                      --text-primary: #f5f5f7;
-                      --text-secondary: #98989d;
-                      --text-tertiary: #86868b;
-                      --border-color: rgba(255, 255, 255, 0.1);
-                      --accent-color: #0a84ff;
-                      --accent-hover: #409cff;
-                      --card-bg: rgba(28, 28, 30, 0.8);
-                      --card-border: rgba(255, 255, 255, 0.08);
-                      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-                      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-                      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-                      --gradient-start: #0a84ff;
-                      --gradient-end: #5e5ce6;
-                  }
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="description" content="Project: Swjb_CivilOneStop Asset Archive.">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Component Hub - Swjb_CivilOneStop</title>
+            <style>
+                :root {
+                    --bg-primary: #ffffff;
+                    --bg-secondary: #f5f5f7;
+                    --bg-tertiary: #ffffff;
+                    --text-primary: #1d1d1f;
+                    --text-secondary: #86868b;
+                    --text-tertiary: #6e6e73;
+                    --border-color: rgba(0, 0, 0, 0.08);
+                    --accent-color: #007aff;
+                    --accent-hover: #0051d5;
+                    --card-bg: rgba(255, 255, 255, 0.8);
+                    --card-border: rgba(0, 0, 0, 0.06);
+                    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+                    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+                    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+                    --gradient-start: #007aff;
+                    --gradient-end: #5856d6;
+                }
+                
+                [data-theme="dark"] {
+                    --bg-primary: #000000;
+                    --bg-secondary: #1c1c1e;
+                    --bg-tertiary: #2c2c2e;
+                    --text-primary: #f5f5f7;
+                    --text-secondary: #98989d;
+                    --text-tertiary: #86868b;
+                    --border-color: rgba(255, 255, 255, 0.1);
+                    --accent-color: #0a84ff;
+                    --accent-hover: #409cff;
+                    --card-bg: rgba(28, 28, 30, 0.8);
+                    --card-border: rgba(255, 255, 255, 0.08);
+                    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+                    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+                    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+                    --gradient-start: #0a84ff;
+                    --gradient-end: #5e5ce6;
+                }
 
-                  * { 
-                      margin: 0; 
-                      padding: 0; 
-                      box-sizing: border-box; 
-                  }
-                  
-                  body {
-                      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Malgun Gothic', sans-serif;
-                      background: var(--bg-secondary);
-                      color: var(--text-primary);
-                      line-height: 1.5;
-                      transition: background-color 0.3s ease, color 0.3s ease;
-                      -webkit-font-smoothing: antialiased;
-                      -moz-osx-font-smoothing: grayscale;
-                  }
-                  
-                  /* Loader */
-                  #loader-overlay {
-                      position: fixed;
-                      top: 0;
-                      left: 0;
-                      width: 100%;
-                      height: 100%;
-                      background: var(--bg-secondary);
-                      z-index: 9999;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      transition: opacity 0.5s ease;
-                      backdrop-filter: blur(20px);
-                  }
-                  
-                  .loader-content {
-                      text-align: center;
-                      width: 300px;
-                  }
-                  
-                  .loader-content .logo-icon {
-                      width: 64px;
-                      height: 64px;
-                      background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
-                      border-radius: 18px;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      font-size: 32px;
-                      margin: 0 auto 24px auto;
-                      box-shadow: var(--shadow-md);
-                  }
-                  
-                  .loader-content h3 {
-                      font-size: 20px;
-                      font-weight: 600;
-                      color: var(--text-primary);
-                      margin-bottom: 24px;
-                      letter-spacing: -0.3px;
-                  }
-                  
-                  .progress-bar-container {
-                      width: 100%;
-                      height: 4px;
-                      background: var(--bg-tertiary);
-                      border-radius: 2px;
-                      overflow: hidden;
-                      margin-bottom: 16px;
-                  }
-                  
-                  .progress-bar-indeterminate {
-                      position: relative;
-                      width: 100%;
-                      height: 100%;
-                  }
-                  
-                  .progress-bar-indeterminate::before {
-                      content: '';
-                      position: absolute;
-                      height: 100%;
-                      width: 50%;
-                      background: linear-gradient(90deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
-                      border-radius: 2px;
-                      animation: indeterminate-progress 1.5s infinite ease-in-out;
-                  }
-                  
-                  .loader-log {
-                      font-size: 13px;
-                      color: var(--text-secondary);
-                      font-family: 'SF Mono', 'Monaco', monospace;
-                  }
-                  
-                  @keyframes indeterminate-progress {
-                      0% { left: -50%; }
-                      100% { left: 100%; }
-                  }
-                  
-                  /* Header */
-                  header {
-                      background: var(--card-bg);
-                      border-bottom: 1px solid var(--border-color);
-                      position: sticky;
-                      top: 0;
-                      z-index: 100;
-                      backdrop-filter: saturate(180%) blur(20px);
-                  }
-                  
-                  .header-container {
-                      max-width: 1400px;
-                      margin: 0 auto;
-                      padding: 20px 40px;
-                      display: flex;
-                      align-items: center;
-                      justify-content: space-between;
-                  }
-                  
-                  .logo {
-                      font-size: 21px;
-                      font-weight: 600;
-                      color: var(--text-primary);
-                      display: flex;
-                      align-items: center;
-                      gap: 12px;
-                      letter-spacing: -0.5px;
-                  }
-                  
-                  .logo-icon {
-                      width: 36px;
-                      height: 36px;
-                      background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
-                      border-radius: 10px;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      font-size: 20px;
-                  }
-                  
-                  .header-links {
-                      display: flex;
-                      gap: 12px;
-                      align-items: center;
-                  }
-                  
-                  .header-link {
-                      color: var(--text-secondary);
-                      text-decoration: none;
-                      font-size: 14px;
-                      font-weight: 500;
-                      transition: color 0.2s;
-                  }
-                  
-                  .header-link:hover { 
-                      color: var(--text-primary); 
-                  }
-                  
-                  .theme-toggle, .lang-toggle {
-                      background: var(--bg-tertiary);
-                      border: 1px solid var(--border-color);
-                      border-radius: 20px;
-                      padding: 6px 16px;
-                      cursor: pointer;
-                      font-size: 13px;
-                      font-weight: 500;
-                      color: var(--text-primary);
-                      transition: all 0.2s;
-                      display: flex;
-                      align-items: center;
-                      gap: 6px;
-                  }
-                  
-                  .theme-toggle:hover, .lang-toggle:hover {
-                      background: var(--bg-secondary);
-                      transform: scale(1.02);
-                  }
-                  
-                  /* Main Content */
-                  main {
-                      max-width: 1400px;
-                      margin: 0 auto;
-                      padding: 64px 40px;
-                  }
-                  
-                  .page-header { 
-                      margin-bottom: 48px; 
-                  }
-                  
-                  .page-title {
-                      font-size: 56px;
-                      font-weight: 700;
-                      color: var(--text-primary);
-                      margin-bottom: 16px;
-                      letter-spacing: -1.5px;
-                      background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
-                      -webkit-background-clip: text;
-                      -webkit-text-fill-color: transparent;
-                      background-clip: text;
-                  }
-                  
-                  .page-description {
-                      font-size: 19px;
-                      color: var(--text-secondary);
-                      max-width: 600px;
-                      line-height: 1.6;
-                      letter-spacing: -0.2px;
-                  }
-                  
-                  /* Search */
-                  .search-container { 
-                      margin-bottom: 48px; 
-                  }
-                  
-                  .search-box {
-                      position: relative;
-                      max-width: 600px;
-                  }
-                  
-                  .search-input {
-                      width: 100%;
-                      padding: 14px 20px 14px 48px;
-                      border: 1px solid var(--border-color);
-                      border-radius: 12px;
-                      font-size: 15px;
-                      transition: all 0.2s;
-                      background: var(--card-bg);
-                      color: var(--text-primary);
-                      backdrop-filter: saturate(180%) blur(20px);
-                  }
-                  
-                  .search-input::placeholder {
-                      color: var(--text-tertiary);
-                  }
-                  
-                  .search-input:focus {
-                      outline: none;
-                      border-color: var(--accent-color);
-                      box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
-                  }
-                  
-                  [data-theme="dark"] .search-input:focus {
-                      box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.2);
-                  }
-                  
-                  .search-icon {
-                      position: absolute;
-                      left: 18px;
-                      top: 50%;
-                      transform: translateY(-50%);
-                      color: var(--text-tertiary);
-                      font-size: 18px;
-                  }
-                  
-                  /* Stats Bar */
-                  .stats-bar {
-                      display: flex;
-                      gap: 40px;
-                      margin-bottom: 32px;
-                      padding: 20px 0;
-                  }
-                  
-                  .stat-item {
-                      display: flex;
-                      align-items: baseline;
-                      gap: 8px;
-                      color: var(--text-secondary);
-                      font-size: 14px;
-                  }
-                  
-                  .stat-number {
-                      font-weight: 600;
-                      color: var(--text-primary);
-                      font-size: 28px;
-                      letter-spacing: -0.5px;
-                  }
-                  
-                  /* Component Grid */
-                  .component-grid {
-                      display: grid;
-                      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-                      gap: 20px;
-                  }
-                  
-                  .component-card {
-                      background: var(--card-bg);
-                      border: 1px solid var(--card-border);
-                      border-radius: 16px;
-                      padding: 24px;
-                      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                      cursor: pointer;
-                      position: relative;
-                      overflow: hidden;
-                      backdrop-filter: saturate(180%) blur(20px);
-                  }
-                  
-                  .component-card::before {
-                      content: '';
-                      position: absolute;
-                      top: 0;
-                      left: 0;
-                      right: 0;
-                      height: 2px;
-                      background: linear-gradient(90deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
-                      transform: scaleX(0);
-                      transition: transform 0.3s;
-                  }
-                  
-                  .component-card:hover {
-                      transform: translateY(-4px);
-                      box-shadow: var(--shadow-lg);
-                      border-color: var(--accent-color);
-                  }
-                  
-                  .component-card:hover::before { 
-                      transform: scaleX(1); 
-                  }
-                  
-                  .component-icon {
-                      width: 56px;
-                      height: 56px;
-                      background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
-                      border-radius: 14px;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      margin-bottom: 20px;
-                      font-size: 28px;
-                      box-shadow: var(--shadow-sm);
-                  }
-                  
-                  .component-name {
-                      font-size: 17px;
-                      font-weight: 600;
-                      color: var(--text-primary);
-                      margin-bottom: 8px;
-                      letter-spacing: -0.3px;
-                  }
-                  
-                  .component-path {
-                      font-size: 12px;
-                      color: var(--text-tertiary);
-                      margin-bottom: 16px;
-                      font-family: 'SF Mono', 'Monaco', monospace;
-                      overflow: hidden;
-                      text-overflow: ellipsis;
-                      white-space: nowrap;
-                  }
-                  
-                  .component-meta {
-                      display: flex;
-                      gap: 8px;
-                      flex-wrap: wrap;
-                      align-items: center;
-                  }
-                  
-                  .component-tag {
-                      background: var(--bg-tertiary);
-                      color: var(--text-secondary);
-                      padding: 4px 12px;
-                      border-radius: 12px;
-                      font-size: 12px;
-                      font-weight: 500;
-                      border: 1px solid var(--border-color);
-                  }
-                  
-                  .component-size {
-                      color: var(--text-tertiary);
-                      font-size: 12px;
-                      margin-left: auto;
-                      font-family: 'SF Mono', 'Monaco', monospace;
-                  }
-                  
-                  /* Empty State */
-                  .empty-state {
-                      grid-column: 1/-1;
-                      text-align: center;
-                      padding: 80px 20px;
-                  }
-                  
-                  .empty-state-icon {
-                      font-size: 64px;
-                      margin-bottom: 16px;
-                      opacity: 0.3;
-                  }
-                  
-                  .empty-state-title {
-                      font-size: 21px;
-                      font-weight: 600;
-                      color: var(--text-primary);
-                      margin-bottom: 8px;
-                      letter-spacing: -0.3px;
-                  }
-                  
-                  .empty-state-text {
-                      color: var(--text-secondary);
-                      font-size: 15px;
-                  }
-                  
-                  /* Footer */
-                  footer {
-                      background: var(--bg-primary);
-                      border-top: 1px solid var(--border-color);
-                      margin-top: 120px;
-                  }
-                  
-                  .footer-container {
-                      max-width: 1400px;
-                      margin: 0 auto;
-                      padding: 60px 40px 40px;
-                  }
-                  
-                  .repo-info {
-                      background: var(--bg-secondary);
-                      padding: 24px;
-                      border-radius: 12px;
-                      margin-bottom: 48px;
-                      border: 1px solid var(--border-color);
-                  }
-                  
-                  .repo-info strong {
-                      color: var(--text-primary);
-                      font-weight: 600;
-                  }
-                  
-                  .repo-info a {
-                      color: var(--accent-color);
-                      text-decoration: none;
-                      font-weight: 500;
-                  }
-                  
-                  .repo-info a:hover { 
-                      text-decoration: underline; 
-                  }
-                  
-                  .footer-bottom {
-                      border-top: 1px solid var(--border-color);
-                      padding-top: 32px;
-                      text-align: center;
-                      color: var(--text-secondary);
-                      font-size: 13px;
-                  }
-                  
-                  /* Responsive */
-                  @media (max-width: 768px) {
-                      .header-container, main, .footer-container {
-                          padding-left: 20px;
-                          padding-right: 20px;
-                      }
-                      .page-title { 
-                          font-size: 40px; 
-                      }
-                      .component-grid { 
-                          grid-template-columns: 1fr; 
-                      }
-                      .header-link { 
-                          display: none; 
-                      }
-                      .loader-content { 
-                          width: 90%; 
-                      }
-                      .stats-bar {
-                          gap: 24px;
-                      }
-                  }
-              </style>
-          </head>
-          <body>
-              <div id="loader-overlay">
-                  <div class="loader-content">
-                      <div class="logo-icon">📦</div>
-                      <h3 data-i18n="loader.title">Loading CivilOneStop Hub</h3>
-                      <div class="progress-bar-container">
-                          <div class="progress-bar-indeterminate"></div>
-                      </div>
-                      <div class="loader-log" id="loaderLog">Initializing...</div>
-                  </div>
-              </div>
-              
-              <header>
-                  <div class="header-container">
-                      <div class="logo">
-                          <div class="logo-icon">📦</div>
-                          <span data-i18n="header.title">CivilOneStop Hub</span>
-                      </div>
-                      <div class="header-links">
-                          <a href="#" class="header-link" id="githubHeaderLink">GitHub</a>
-                          <button class="lang-toggle" onclick="toggleLanguage()">
-                              <span>🌐</span>
-                              <span id="langText">한국어</span>
-                          </button>
-                          <button class="theme-toggle" onclick="toggleTheme()">
-                              <span id="themeIcon">🌙</span>
-                              <span id="themeText" data-i18n="theme.dark">Dark</span>
-                          </button>
-                      </div>
-                  </div>
-              </header>
-              
-              <main>
-                  <div class="page-header">
-                      <h1 class="page-title" data-i18n="main.title">CivilOneStop Hub</h1>
-                      <p class="page-description" data-i18n="main.description">
-                          Project: Swjb_CivilOneStop Asset Archive. 
-                      </p>
-                  </div>
-                  
-                  <div class="search-container">
-                      <div class="search-box">
-                          <span class="search-icon">🔍</span>
-                          <input type="text" class="search-input" id="searchInput" data-i18n-placeholder="search.placeholder">
-                      </div>
-                  </div>
-                  
-                  <div class="stats-bar" id="statsBar">
-                      <div class="stat-item">
-                          <span data-i18n="stats.total">Total</span>
-                          <span class="stat-number" id="totalCount">0</span>
-                          <span data-i18n="stats.components">components</span>
-                      </div>
-                      <div class="stat-item">
-                          <span class="stat-number" id="categoryCount">0</span>
-                          <span data-i18n="stats.inCategory">in category</span>
-                      </div>
-                  </div>
-                  
-                  <div class="component-grid" id="componentGrid"></div>
-              </main>
-              
-              <footer>
-                  <div class="footer-container">
-                      <div class="repo-info" id="repoInfo"></div>
-                      <div class="footer-bottom">
-                          <p data-i18n="footer.credits">Project: CivilOneStop · Built by @Special-Srit and @minjun0629</p>
-                      </div>
-                  </div>
-              </footer>
-              
-              <script>
-                  // Translation data
-                  const translations = {
-                      en: {
-                          'loader.title': 'Loading CivilOneStop Hub',
-                          'header.title': 'CivilOneStop Hub',
-                          'main.title': 'CivilOneStop Hub',
-                          'main.description': 'Project: Swjb_CivilOneStop Asset Archive.',
-                          'search.placeholder': 'Search components...',
-                          'stats.total': 'Total',
-                          'stats.components': 'components',
-                          'stats.inCategory': 'in category',
-                          'theme.dark': 'Dark',
-                          'theme.light': 'Light',
-                          'footer.credits': 'Project: CivilOneStop · Built by @Special-Srit and @minjun0629',
-                          'empty.noResults': 'No results found',
-                          'empty.tryAdjusting': 'Try adjusting your search or filter',
-                          'empty.error': 'Error loading components',
-                          'repo.label': 'Repository:'
-                      },
-                      ko: {
-                          'loader.title': 'CivilOneStop Hub 로딩 중',
-                          'header.title': 'CivilOneStop Hub',
-                          'main.title': 'CivilOneStop Hub',
-                          'main.description': 'Project: Swjb_CivilOneStop 컴포넌트 아카이브',
-                          'search.placeholder': '컴포넌트 검색하기...',
-                          'stats.total': '전체',
-                          'stats.components': '컴포넌트',
-                          'stats.inCategory': '카테고리에 일치하는 수',
-                          'theme.dark': '다크',
-                          'theme.light': '라이트',
-                          'footer.credits': 'Project: CivilOneStop · 제작: @Special-Srit & @minjun0629',
-                          'empty.noResults': '결과 없음',
-                          'empty.tryAdjusting': '검색어나 필터를 조정해보세요',
-                          'empty.error': '컴포넌트 로딩 오류',
-                          'repo.label': '저장소:'
-                      }
-                  };
+                * { 
+                    margin: 0; 
+                    padding: 0; 
+                    box-sizing: border-box; 
+                }
+                
+                body {
+                    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Malgun Gothic', sans-serif;
+                    background: var(--bg-secondary);
+                    color: var(--text-primary);
+                    line-height: 1.5;
+                    transition: background-color 0.3s ease, color 0.3s ease;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                }
+                
+                /* Loader */
+                #loader-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: var(--bg-secondary);
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: opacity 0.5s ease;
+                    backdrop-filter: blur(20px);
+                }
+                
+                .loader-content {
+                    text-align: center;
+                    width: 300px;
+                }
+                
+                .loader-content .logo-icon {
+                    width: 64px;
+                    height: 64px;
+                    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+                    border-radius: 18px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 32px;
+                    margin: 0 auto 24px auto;
+                    box-shadow: var(--shadow-md);
+                }
+                
+                .loader-content h3 {
+                    font-size: 20px;
+                    font-weight: 600;
+                    color: var(--text-primary);
+                    margin-bottom: 24px;
+                    letter-spacing: -0.3px;
+                }
+                
+                .progress-bar-container {
+                    width: 100%;
+                    height: 4px;
+                    background: var(--bg-tertiary);
+                    border-radius: 2px;
+                    overflow: hidden;
+                    margin-bottom: 16px;
+                }
+                
+                .progress-bar-indeterminate {
+                    position: relative;
+                    width: 100%;
+                    height: 100%;
+                }
+                
+                .progress-bar-indeterminate::before {
+                    content: '';
+                    position: absolute;
+                    height: 100%;
+                    width: 50%;
+                    background: linear-gradient(90deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+                    border-radius: 2px;
+                    animation: indeterminate-progress 1.5s infinite ease-in-out;
+                }
+                
+                .loader-log {
+                    font-size: 13px;
+                    color: var(--text-secondary);
+                    font-family: 'SF Mono', 'Monaco', monospace;
+                }
+                
+                @keyframes indeterminate-progress {
+                    0% { left: -50%; }
+                    100% { left: 100%; }
+                }
+                
+                /* Header */
+                header {
+                    background: var(--card-bg);
+                    border-bottom: 1px solid var(--border-color);
+                    position: sticky;
+                    top: 0;
+                    z-index: 100;
+                    backdrop-filter: saturate(180%) blur(20px);
+                }
+                
+                .header-container {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 20px 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+                
+                .logo {
+                    font-size: 21px;
+                    font-weight: 600;
+                    color: var(--text-primary);
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    letter-spacing: -0.5px;
+                }
+                
+                .logo-icon {
+                    width: 36px;
+                    height: 36px;
+                    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+                    border-radius: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 20px;
+                }
+                
+                .header-links {
+                    display: flex;
+                    gap: 12px;
+                    align-items: center;
+                }
+                
+                .header-link {
+                    color: var(--text-secondary);
+                    text-decoration: none;
+                    font-size: 14px;
+                    font-weight: 500;
+                    transition: color 0.2s;
+                }
+                
+                .header-link:hover { 
+                    color: var(--text-primary); 
+                }
+                
+                .theme-toggle, .lang-toggle {
+                    background: var(--bg-tertiary);
+                    border: 1px solid var(--border-color);
+                    border-radius: 20px;
+                    padding: 6px 16px;
+                    cursor: pointer;
+                    font-size: 13px;
+                    font-weight: 500;
+                    color: var(--text-primary);
+                    transition: all 0.2s;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                }
+                
+                .theme-toggle:hover, .lang-toggle:hover {
+                    background: var(--bg-secondary);
+                    transform: scale(1.02);
+                }
+                
+                /* Main Content */
+                main {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 64px 40px;
+                }
+                
+                .page-header { 
+                    margin-bottom: 48px; 
+                }
+                
+                .page-title {
+                    font-size: 56px;
+                    font-weight: 700;
+                    color: var(--text-primary);
+                    margin-bottom: 16px;
+                    letter-spacing: -1.5px;
+                    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                }
+                
+                .page-description {
+                    font-size: 19px;
+                    color: var(--text-secondary);
+                    max-width: 600px;
+                    line-height: 1.6;
+                    letter-spacing: -0.2px;
+                }
 
-                  let allComponents = [];
-                  let currentCategory = 'all';
-                  let currentLang = 'en';
+                /* Resources Banner */
+                .resources-banner {
+                    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+                    border-radius: 16px;
+                    padding: 32px;
+                    margin-bottom: 48px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    box-shadow: var(--shadow-lg);
+                    color: white;
+                }
 
-                  // Language Management
-                  function initLanguage() {
-                      const savedLang = localStorage.getItem('language') || 'en';
-                      currentLang = savedLang;
-                      updateLanguage(savedLang);
-                  }
+                .resources-info h3 {
+                    font-size: 24px;
+                    font-weight: 600;
+                    margin-bottom: 8px;
+                }
 
-                  function toggleLanguage() {
-                      const newLang = currentLang === 'en' ? 'ko' : 'en';
-                      currentLang = newLang;
-                      localStorage.setItem('language', newLang);
-                      updateLanguage(newLang);
-                  }
+                .resources-info p {
+                    opacity: 0.9;
+                    font-size: 15px;
+                }
 
-                  function updateLanguage(lang) {
-                      // Update all elements with data-i18n attribute
-                      document.querySelectorAll('[data-i18n]').forEach(element => {
-                          const key = element.getAttribute('data-i18n');
-                          if (translations[lang][key]) {
-                              element.textContent = translations[lang][key];
-                          }
-                      });
+                .download-btn {
+                    background: rgba(255, 255, 255, 0.2);
+                    border: 1px solid rgba(255, 255, 255, 0.3);
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 12px;
+                    font-size: 15px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    transition: all 0.2s;
+                    text-decoration: none;
+                }
 
-                      // Update placeholder
-                      const searchInput = document.getElementById('searchInput');
-                      if (searchInput) {
-                          searchInput.placeholder = translations[lang]['search.placeholder'];
-                      }
+                .download-btn:hover {
+                    background: rgba(255, 255, 255, 0.3);
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+                }
+                
+                /* Filter Tabs */
+                .filter-tabs {
+                    display: flex;
+                    gap: 12px;
+                    margin-bottom: 32px;
+                    flex-wrap: wrap;
+                }
 
-                      // Update language button
-                      const langText = document.getElementById('langText');
-                      if (langText) {
-                          langText.textContent = lang === 'en' ? '한국어' : 'English';
-                      }
+                .filter-tab {
+                    background: var(--bg-tertiary);
+                    border: 1px solid var(--border-color);
+                    padding: 10px 20px;
+                    border-radius: 12px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                    color: var(--text-secondary);
+                }
 
-                      // Update theme button text
-                      updateThemeButtonText();
-                  }
+                .filter-tab:hover {
+                    border-color: var(--accent-color);
+                    color: var(--text-primary);
+                }
 
-                  // Theme Management
-                  function initTheme() {
-                      const savedTheme = localStorage.getItem('theme') || 'light';
-                      document.documentElement.setAttribute('data-theme', savedTheme);
-                      updateThemeButton(savedTheme);
-                  }
+                .filter-tab.active {
+                    background: var(--accent-color);
+                    color: white;
+                    border-color: var(--accent-color);
+                }
 
-                  function toggleTheme() {
-                      const currentTheme = document.documentElement.getAttribute('data-theme');
-                      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                      document.documentElement.setAttribute('data-theme', newTheme);
-                      localStorage.setItem('theme', newTheme);
-                      updateThemeButton(newTheme);
-                  }
+                /* Search */
+                .search-container { 
+                    margin-bottom: 32px; 
+                }
+                
+                .search-box {
+                    position: relative;
+                    max-width: 600px;
+                }
+                
+                .search-input {
+                    width: 100%;
+                    padding: 14px 20px 14px 48px;
+                    border: 1px solid var(--border-color);
+                    border-radius: 12px;
+                    font-size: 15px;
+                    transition: all 0.2s;
+                    background: var(--card-bg);
+                    color: var(--text-primary);
+                    backdrop-filter: saturate(180%) blur(20px);
+                }
+                
+                .search-input::placeholder {
+                    color: var(--text-tertiary);
+                }
+                
+                .search-input:focus {
+                    outline: none;
+                    border-color: var(--accent-color);
+                    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+                }
+                
+                [data-theme="dark"] .search-input:focus {
+                    box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.2);
+                }
+                
+                .search-icon {
+                    position: absolute;
+                    left: 18px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: var(--text-tertiary);
+                    font-size: 18px;
+                }
+                
+                /* Stats Bar */
+                .stats-bar {
+                    display: flex;
+                    gap: 40px;
+                    margin-bottom: 32px;
+                    padding: 20px 0;
+                    flex-wrap: wrap;
+                }
+                
+                .stat-item {
+                    display: flex;
+                    align-items: baseline;
+                    gap: 8px;
+                    color: var(--text-secondary);
+                    font-size: 14px;
+                }
+                
+                .stat-number {
+                    font-weight: 600;
+                    color: var(--text-primary);
+                    font-size: 28px;
+                    letter-spacing: -0.5px;
+                }
+                
+                /* Component Grid */
+                .component-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                    gap: 20px;
+                }
+                
+                .component-card {
+                    background: var(--card-bg);
+                    border: 1px solid var(--card-border);
+                    border-radius: 16px;
+                    padding: 24px;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    cursor: pointer;
+                    position: relative;
+                    overflow: hidden;
+                    backdrop-filter: saturate(180%) blur(20px);
+                }
+                
+                .component-card::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 2px;
+                    background: linear-gradient(90deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+                    transform: scaleX(0);
+                    transition: transform 0.3s;
+                }
+                
+                .component-card:hover {
+                    transform: translateY(-4px);
+                    box-shadow: var(--shadow-lg);
+                    border-color: var(--accent-color);
+                }
+                
+                .component-card:hover::before { 
+                    transform: scaleX(1); 
+                }
+                
+                .component-icon {
+                    width: 56px;
+                    height: 56px;
+                    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+                    border-radius: 14px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 20px;
+                    font-size: 28px;
+                    box-shadow: var(--shadow-sm);
+                }
+                
+                .component-name {
+                    font-size: 17px;
+                    font-weight: 600;
+                    color: var(--text-primary);
+                    margin-bottom: 8px;
+                    letter-spacing: -0.3px;
+                }
+                
+                .component-path {
+                    font-size: 12px;
+                    color: var(--text-tertiary);
+                    margin-bottom: 16px;
+                    font-family: 'SF Mono', 'Monaco', monospace;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                
+                .component-meta {
+                    display: flex;
+                    gap: 8px;
+                    flex-wrap: wrap;
+                    align-items: center;
+                }
+                
+                .component-tag {
+                    background: var(--bg-tertiary);
+                    color: var(--text-secondary);
+                    padding: 4px 12px;
+                    border-radius: 12px;
+                    font-size: 12px;
+                    font-weight: 500;
+                    border: 1px solid var(--border-color);
+                }
 
-                  function updateThemeButton(theme) {
-                      const icon = document.getElementById('themeIcon');
-                      const text = document.getElementById('themeText');
-                      if (theme === 'dark') {
-                          icon.textContent = '☀️';
-                          text.setAttribute('data-i18n', 'theme.light');
-                      } else {
-                          icon.textContent = '🌙';
-                          text.setAttribute('data-i18n', 'theme.dark');
-                      }
-                      updateThemeButtonText();
-                  }
+                .component-tag.type-html {
+                    background: rgba(227, 79, 38, 0.1);
+                    color: #e34f26;
+                    border-color: rgba(227, 79, 38, 0.2);
+                }
 
-                  function updateThemeButtonText() {
-                      const text = document.getElementById('themeText');
-                      const key = text.getAttribute('data-i18n');
-                      if (translations[currentLang][key]) {
-                          text.textContent = translations[currentLang][key];
-                      }
-                  }
+                .component-tag.type-css {
+                    background: rgba(38, 77, 228, 0.1);
+                    color: #264de4;
+                    border-color: rgba(38, 77, 228, 0.2);
+                }
 
-                  function updateLoaderLog(message) {
-                      const logEl = document.getElementById('loaderLog');
-                      if (logEl) {
-                          logEl.textContent = message;
-                      }
-                  }
+                .component-tag.type-scss {
+                    background: rgba(204, 102, 153, 0.1);
+                    color: #cc6699;
+                    border-color: rgba(204, 102, 153, 0.2);
+                }
+                
+                .component-size {
+                    color: var(--text-tertiary);
+                    font-size: 12px;
+                    margin-left: auto;
+                    font-family: 'SF Mono', 'Monaco', monospace;
+                }
+                
+                /* Empty State */
+                .empty-state {
+                    grid-column: 1/-1;
+                    text-align: center;
+                    padding: 80px 20px;
+                }
+                
+                .empty-state-icon {
+                    font-size: 64px;
+                    margin-bottom: 16px;
+                    opacity: 0.3;
+                }
+                
+                .empty-state-title {
+                    font-size: 21px;
+                    font-weight: 600;
+                    color: var(--text-primary);
+                    margin-bottom: 8px;
+                    letter-spacing: -0.3px;
+                }
+                
+                .empty-state-text {
+                    color: var(--text-secondary);
+                    font-size: 15px;
+                }
+                
+                /* Footer */
+                footer {
+                    background: var(--bg-primary);
+                    border-top: 1px solid var(--border-color);
+                    margin-top: 120px;
+                }
+                
+                .footer-container {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 60px 40px 40px;
+                }
+                
+                .repo-info {
+                    background: var(--bg-secondary);
+                    padding: 24px;
+                    border-radius: 12px;
+                    margin-bottom: 48px;
+                    border: 1px solid var(--border-color);
+                }
+                
+                .repo-info strong {
+                    color: var(--text-primary);
+                    font-weight: 600;
+                }
+                
+                .repo-info a {
+                    color: var(--accent-color);
+                    text-decoration: none;
+                    font-weight: 500;
+                }
+                
+                .repo-info a:hover { 
+                    text-decoration: underline; 
+                }
+                
+                .footer-bottom {
+                    border-top: 1px solid var(--border-color);
+                    padding-top: 32px;
+                    text-align: center;
+                    color: var(--text-secondary);
+                    font-size: 13px;
+                }
+                
+                /* Responsive */
+                @media (max-width: 768px) {
+                    .header-container, main, .footer-container {
+                        padding-left: 20px;
+                        padding-right: 20px;
+                    }
+                    .page-title { 
+                        font-size: 40px; 
+                    }
+                    .component-grid { 
+                        grid-template-columns: 1fr; 
+                    }
+                    .header-link { 
+                        display: none; 
+                    }
+                    .loader-content { 
+                        width: 90%; 
+                    }
+                    .stats-bar {
+                        gap: 24px;
+                    }
+                    .resources-banner {
+                        flex-direction: column;
+                        gap: 20px;
+                        text-align: center;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div id="loader-overlay">
+                <div class="loader-content">
+                    <div class="logo-icon">📦</div>
+                    <h3 data-i18n="loader.title">Loading CivilOneStop Hub</h3>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-indeterminate"></div>
+                    </div>
+                    <div class="loader-log" id="loaderLog">Initializing...</div>
+                </div>
+            </div>
+            
+            <header>
+                <div class="header-container">
+                    <div class="logo">
+                        <div class="logo-icon">📦</div>
+                        <span data-i18n="header.title">CivilOneStop Hub</span>
+                    </div>
+                    <div class="header-links">
+                        <a href="#" class="header-link" id="githubHeaderLink">GitHub</a>
+                        <button class="lang-toggle" onclick="toggleLanguage()">
+                            <span>🌐</span>
+                            <span id="langText">한국어</span>
+                        </button>
+                        <button class="theme-toggle" onclick="toggleTheme()">
+                            <span id="themeIcon">🌙</span>
+                            <span id="themeText" data-i18n="theme.dark">Dark</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <main>
+                <div class="page-header">
+                    <h1 class="page-title" data-i18n="main.title">CivilOneStop Hub</h1>
+                    <p class="page-description" data-i18n="main.description">
+                        Project: Swjb_CivilOneStop Asset Archive. 
+                    </p>
+                </div>
 
-                  function hideLoader() {
-                      const loader = document.getElementById('loader-overlay');
-                      if (loader) {
-                          loader.style.opacity = '0';
-                          setTimeout(() => {
-                              loader.style.display = 'none';
-                          }, 500);
-                      }
-                  }
+                <div class="resources-banner" id="resourcesBanner" style="display: none;">
+                    <div class="resources-info">
+                        <h3 data-i18n="resources.title">📦 Resources Package</h3>
+                        <p data-i18n="resources.description">Download the complete resources archive</p>
+                    </div>
+                    <a href="#" class="download-btn" id="resourcesDownloadBtn" target="_blank">
+                        <span>⬇️</span>
+                        <span data-i18n="resources.download">Download</span>
+                    </a>
+                </div>
 
-                  function detectCategory(path) {
-                      const lowerPath = path.toLowerCase();
-                      if (lowerPath.includes('component')) return 'components';
-                      return 'components';
-                  }
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterByType('all')" data-i18n="filter.all">All</button>
+                    <button class="filter-tab" onclick="filterByType('html')" data-i18n="filter.html">HTML</button>
+                    <button class="filter-tab" onclick="filterByType('css')" data-i18n="filter.css">CSS</button>
+                    <button class="filter-tab" onclick="filterByType('scss')" data-i18n="filter.scss">SCSS</button>
+                </div>
+                
+                <div class="search-container">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" id="searchInput" data-i18n-placeholder="search.placeholder">
+                    </div>
+                </div>
+                
+                <div class="stats-bar" id="statsBar">
+                    <div class="stat-item">
+                        <span data-i18n="stats.total">Total</span>
+                        <span class="stat-number" id="totalCount">0</span>
+                        <span data-i18n="stats.components">components</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="htmlCount">0</span>
+                        <span data-i18n="stats.html">HTML</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="cssCount">0</span>
+                        <span data-i18n="stats.css">CSS</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="scssCount">0</span>
+                        <span data-i18n="stats.scss">SCSS</span>
+                    </div>
+                </div>
+                
+                <div class="component-grid" id="componentGrid"></div>
+            </main>
+            
+            <footer>
+                <div class="footer-container">
+                    <div class="repo-info" id="repoInfo"></div>
+                    <div class="footer-bottom">
+                        <p data-i18n="footer.credits">Project: CivilOneStop · Built by @Special-Srit and @minjun0629</p>
+                    </div>
+                </div>
+            </footer>
+            
+            <script>
+                const translations = {
+                    en: {
+                        'loader.title': 'Loading CivilOneStop Hub',
+                        'header.title': 'CivilOneStop Hub',
+                        'main.title': 'CivilOneStop Hub',
+                        'main.description': 'Project: Swjb_CivilOneStop Asset Archive.',
+                        'resources.title': '📦 Resources Package',
+                        'resources.description': 'Download the complete resources archive',
+                        'resources.download': 'Download',
+                        'filter.all': 'All',
+                        'filter.html': 'HTML',
+                        'filter.css': 'CSS',
+                        'filter.scss': 'SCSS',
+                        'search.placeholder': 'Search components...',
+                        'stats.total': 'Total',
+                        'stats.components': 'components',
+                        'stats.html': 'HTML',
+                        'stats.css': 'CSS',
+                        'stats.scss': 'SCSS',
+                        'theme.dark': 'Dark',
+                        'theme.light': 'Light',
+                        'footer.credits': 'Project: CivilOneStop · Built by @Special-Srit and @minjun0629',
+                        'empty.noResults': 'No results found',
+                        'empty.tryAdjusting': 'Try adjusting your search or filter',
+                        'empty.error': 'Error loading components',
+                        'repo.label': 'Repository:'
+                    },
+                    ko: {
+                        'loader.title': 'CivilOneStop Hub 로딩 중',
+                        'header.title': 'CivilOneStop Hub',
+                        'main.title': 'CivilOneStop Hub',
+                        'main.description': 'Project: Swjb_CivilOneStop 컴포넌트 아카이브',
+                        'resources.title': '📦 리소스 패키지',
+                        'resources.description': '전체 리소스 아카이브 다운로드',
+                        'resources.download': '다운로드',
+                        'filter.all': '전체',
+                        'filter.html': 'HTML',
+                        'filter.css': 'CSS',
+                        'filter.scss': 'SCSS',
+                        'search.placeholder': '컴포넌트 검색하기...',
+                        'stats.total': '전체',
+                        'stats.components': '컴포넌트',
+                        'stats.html': 'HTML',
+                        'stats.css': 'CSS',
+                        'stats.scss': 'SCSS',
+                        'theme.dark': '다크',
+                        'theme.light': '라이트',
+                        'footer.credits': 'Project: CivilOneStop · 제작: @Special-Srit & @minjun0629',
+                        'empty.noResults': '결과 없음',
+                        'empty.tryAdjusting': '검색어나 필터를 조정해보세요',
+                        'empty.error': '컴포넌트 로딩 오류',
+                        'repo.label': '저장소:'
+                    }
+                };
 
-                  function getIconForFile(name) {
-                      const lowerName = name.toLowerCase();
-                      if (lowerName.includes('header') || lowerName.includes('nav')) return '🧭';
-                      if (lowerName.includes('footer')) return '🔻';
-                      if (lowerName.includes('form')) return '📝';
-                      if (lowerName.includes('table')) return '📊';
-                      if (lowerName.includes('modal')) return '💬';
-                      if (lowerName.includes('search')) return '🔍';
-                      if (lowerName.includes('card')) return '🎴';
-                      if (lowerName.includes('button')) return '🔘';
-                      if (lowerName.includes('menu')) return '☰';
-                      if (lowerName.includes('login')) return '🔐';
-                      return '📄';
-                  }
+                let allComponents = [];
+                let currentFilter = 'all';
+                let currentLang = 'en';
+                let repoOwner = '';
+                let repoName = '';
 
-                  function formatSize(bytes) {
-                      if (bytes < 1024) return bytes + ' B';
-                      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-                      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-                  }
+                function initLanguage() {
+                    const savedLang = localStorage.getItem('language') || 'en';
+                    currentLang = savedLang;
+                    updateLanguage(savedLang);
+                }
 
-                  async function init() {
-                      initTheme();
-                      initLanguage();
-                      const startTime = Date.now();
-                      const minLoadTime = 1500;
+                function toggleLanguage() {
+                    const newLang = currentLang === 'en' ? 'ko' : 'en';
+                    currentLang = newLang;
+                    localStorage.setItem('language', newLang);
+                    updateLanguage(newLang);
+                }
 
-                      try {
-                          updateLoaderLog('Finding content path...');
-                          let basePath = window.location.pathname;
-                          if (basePath.endsWith('index.html')) {
-                              basePath = basePath.substring(0, basePath.lastIndexOf('index.html'));
-                          }
-                          if (!basePath.endsWith('/')) {
-                              basePath += '/';
-                          }
-                          
-                          updateLoaderLog('Fetching component & repo data...');
-                          const [componentsData, repoData] = await Promise.all([
-                              fetch(basePath + 'components.json').then(r => r.json()),
-                              fetch(basePath + 'repo-info.json').then(r => r.json())
-                          ]);
+                function updateLanguage(lang) {
+                    document.querySelectorAll('[data-i18n]').forEach(element => {
+                        const key = element.getAttribute('data-i18n');
+                        if (translations[lang][key]) {
+                            element.textContent = translations[lang][key];
+                        }
+                    });
 
-                          updateLoaderLog('Processing data...');
-                          
-                          allComponents = componentsData.map(item => {
-                              const pathParts = item.path.split('/');
-                              let rootFolderLabel = null;
+                    const searchInput = document.getElementById('searchInput');
+                    if (searchInput) {
+                        searchInput.placeholder = translations[lang]['search.placeholder'];
+                    }
 
-                              if (pathParts.length > 1 && !pathParts[0].startsWith('.')) {
-                                  rootFolderLabel = pathParts[0];
-                              }
+                    const langText = document.getElementById('langText');
+                    if (langText) {
+                        langText.textContent = lang === 'en' ? '한국어' : 'English';
+                    }
 
-                              return {
-                                  name: item.name.replace('.html', ''),
-                                  path: item.path,
-                                  size: item.size,
-                                  url: item.html_url,
-                                  downloadUrl: item.download_url,
-                                  category: detectCategory(item.path),
-                                  icon: getIconForFile(item.name),
-                                  rootLabel: rootFolderLabel
-                              };
-                          });
+                    updateThemeButtonText();
+                }
 
-                          const repoUrl = repoData.html_url;
-                          document.getElementById('githubHeaderLink').href = repoUrl;
+                function initTheme() {
+                    const savedTheme = localStorage.getItem('theme') || 'light';
+                    document.documentElement.setAttribute('data-theme', savedTheme);
+                    updateThemeButton(savedTheme);
+                }
 
-                          const repoLabel = translations[currentLang]['repo.label'];
-                          document.getElementById('repoInfo').innerHTML = `
-                              <strong>${repoLabel}</strong> 
-                              <a href="${repoData.html_url}" target="_blank">${repoData.full_name}</a>
-                              ${repoData.description ? `<br><small>${repoData.description}</small>` : ''}
-                          `;
-                          
-                          updateLoaderLog(`Found ${allComponents.length} components. Rendering...`);
-                          updateStats(allComponents.length, allComponents.length);
-                          renderComponents(allComponents);
-                          
-                          const elapsedTime = Date.now() - startTime;
-                          const remainingTime = Math.max(0, minLoadTime - elapsedTime);
-                          
-                          setTimeout(() => {
-                              hideLoader();
-                          }, remainingTime);
+                function toggleTheme() {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    updateThemeButton(newTheme);
+                }
 
-                      } catch (error) {
-                          console.error('Error:', error);
-                          const elapsedTime = Date.now() - startTime;
-                          const remainingTime = Math.max(0, minLoadTime - elapsedTime);
+                function updateThemeButton(theme) {
+                    const icon = document.getElementById('themeIcon');
+                    const text = document.getElementById('themeText');
+                    if (theme === 'dark') {
+                        icon.textContent = '☀️';
+                        text.setAttribute('data-i18n', 'theme.light');
+                    } else {
+                        icon.textContent = '🌙';
+                        text.setAttribute('data-i18n', 'theme.dark');
+                    }
+                    updateThemeButtonText();
+                }
 
-                          setTimeout(() => {
-                              hideLoader(); 
-                              document.getElementById('componentGrid').innerHTML = `
-                                  <div class="empty-state">
-                                      <div class="empty-state-icon">⚠️</div>
-                                      <div class="empty-state-title">${translations[currentLang]['empty.error']}</div>
-                                      <p class="empty-state-text">${error.message}</p>
-                                  </div>
-                              `;
-                          }, remainingTime);
-                      }
-                  }
+                function updateThemeButtonText() {
+                    const text = document.getElementById('themeText');
+                    const key = text.getAttribute('data-i18n');
+                    if (translations[currentLang][key]) {
+                        text.textContent = translations[currentLang][key];
+                    }
+                }
 
-                  function updateStats(total, filtered) {
-                      document.getElementById('totalCount').textContent = total;
-                      document.getElementById('categoryCount').textContent = filtered;
-                  }
+                function updateLoaderLog(message) {
+                    const logEl = document.getElementById('loaderLog');
+                    if (logEl) {
+                        logEl.textContent = message;
+                    }
+                }
 
-                  function renderComponents(componentsToRender) {
-                      const grid = document.getElementById('componentGrid');
-                      grid.innerHTML = '';
+                function hideLoader() {
+                    const loader = document.getElementById('loader-overlay');
+                    if (loader) {
+                        loader.style.opacity = '0';
+                        setTimeout(() => {
+                            loader.style.display = 'none';
+                        }, 500);
+                    }
+                }
 
-                      if (componentsToRender.length === 0) {
-                          grid.innerHTML = `
-                              <div class="empty-state">
-                                  <div class="empty-state-icon">🔍</div>
-                                  <div class="empty-state-title">${translations[currentLang]['empty.noResults']}</div>
-                                  <p class="empty-state-text">${translations[currentLang]['empty.tryAdjusting']}</p>
-                              </div>
-                          `;
-                          return;
-                      }
+                function getFileType(filename) {
+                    const lower = filename.toLowerCase();
+                    if (lower.endsWith('.html')) return 'html';
+                    if (lower.endsWith('.css')) return 'css';
+                    if (lower.endsWith('.scss')) return 'scss';
+                    return 'other';
+                }
 
-                      componentsToRender.forEach(component => {
-                          const card = document.createElement('div');
-                          card.className = 'component-card';
-                          card.onclick = () => window.open(component.url, '_blank');
-                          
-                          card.innerHTML = `
-                              <div class="component-icon">${component.icon}</div>
-                              <div class="component-name">${component.name}</div>
-                              <div class="component-path">${component.path}</div>
-                              <div class="component-meta">
-                                  <span class="component-tag">${component.category}</span>
-                                  ${component.rootLabel ? `<span class="component-tag">${component.rootLabel}</span>` : ''}
-                                  <span class="component-size">${formatSize(component.size)}</span>
-                              </div>
-                          `;
-                          
-                          grid.appendChild(card);
-                      });
-                  }
+                function getIconForFile(name, type) {
+                    const lowerName = name.toLowerCase();
+                    
+                    if (type === 'css') return '🎨';
+                    if (type === 'scss') return '💅';
+                    
+                    if (lowerName.includes('header') || lowerName.includes('nav')) return '🧭';
+                    if (lowerName.includes('footer')) return '🔻';
+                    if (lowerName.includes('form')) return '📝';
+                    if (lowerName.includes('table')) return '📊';
+                    if (lowerName.includes('modal')) return '💬';
+                    if (lowerName.includes('search')) return '🔍';
+                    if (lowerName.includes('card')) return '🎴';
+                    if (lowerName.includes('button')) return '🔘';
+                    if (lowerName.includes('menu')) return '☰';
+                    if (lowerName.includes('login')) return '🔐';
+                    return '📄';
+                }
 
-                  function showCategory(category) {
-                      currentCategory = category;
-                      document.querySelectorAll('.nav-item').forEach(item => {
-                          item.classList.remove('active');
-                      });
-                      event.target.classList.add('active');
+                function formatSize(bytes) {
+                    if (bytes < 1024) return bytes + ' B';
+                    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+                    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+                }
 
-                      const filtered = category === 'all'
-                          ? allComponents
-                          : allComponents.filter(c => c.category === category);
+                async function findResourcesZip(contents) {
+                    for (const item of contents) {
+                        if (item.type === 'file' && item.name.toLowerCase() === 'resources.zip') {
+                            return item.download_url;
+                        }
+                    }
+                    return null;
+                }
 
-                      updateStats(allComponents.length, filtered.length);
-                      renderComponents(filtered);
-                  }
+                async function init() {
+                    initTheme();
+                    initLanguage();
+                    const startTime = Date.now();
+                    const minLoadTime = 1500;
 
-                  function searchComponents() {
-                      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-                      
-                      const filtered = allComponents.filter(c =>
-                          c.name.toLowerCase().includes(searchTerm) ||
-                          c.path.toLowerCase().includes(searchTerm) ||
-                          (c.rootLabel && c.rootLabel.toLowerCase().includes(searchTerm))
-                      );
-                      
-                      updateStats(allComponents.length, filtered.length);
-                      renderComponents(filtered);
-                  }
+                    try {
+                        updateLoaderLog('Finding content path...');
+                        let basePath = window.location.pathname;
+                        if (basePath.endsWith('index.html')) {
+                            basePath = basePath.substring(0, basePath.lastIndexOf('index.html'));
+                        }
+                        if (!basePath.endsWith('/')) {
+                            basePath += '/';
+                        }
+                        
+                        updateLoaderLog('Fetching component & repo data...');
+                        const [componentsData, repoData] = await Promise.all([
+                            fetch(basePath + 'components.json').then(r => r.json()),
+                            fetch(basePath + 'repo-info.json').then(r => r.json())
+                        ]);
 
-                  document.getElementById('searchInput').addEventListener('input', searchComponents);
-                  window.addEventListener('DOMContentLoaded', init);
+                        repoOwner = repoData.owner.login;
+                        repoName = repoData.name;
+
+                        updateLoaderLog('Checking for resources.zip...');
+                        const resourcesUrl = await findResourcesZip(componentsData);
+                        if (resourcesUrl) {
+                            document.getElementById('resourcesBanner').style.display = 'flex';
+                            document.getElementById('resourcesDownloadBtn').href = resourcesUrl;
+                        }
+
+                        updateLoaderLog('Processing data...');
+                        
+                        allComponents = componentsData
+                            .filter(item => {
+                                const type = getFileType(item.name);
+                                return type === 'html' || type === 'css' || type === 'scss';
+                            })
+                            .map(item => {
+                                const pathParts = item.path.split('/');
+                                let rootFolderLabel = null;
+
+                                if (pathParts.length > 1 && !pathParts[0].startsWith('.')) {
+                                    rootFolderLabel = pathParts[0];
+                                }
+
+                                const type = getFileType(item.name);
+                                const baseName = item.name.replace(/\.(html|css|scss)$/i, '');
+
+                                return {
+                                    name: baseName,
+                                    path: item.path,
+                                    size: item.size,
+                                    url: item.html_url,
+                                    downloadUrl: item.download_url,
+                                    type: type,
+                                    icon: getIconForFile(item.name, type),
+                                    rootLabel: rootFolderLabel
+                                };
+                            });
+
+                        const repoUrl = repoData.html_url;
+                        document.getElementById('githubHeaderLink').href = repoUrl;
+
+                        const repoLabel = translations[currentLang]['repo.label'];
+                        document.getElementById('repoInfo').innerHTML = `
+                            <strong>${repoLabel}</strong> 
+                            <a href="${repoData.html_url}" target="_blank">${repoData.full_name}</a>
+                            ${repoData.description ? `<br><small>${repoData.description}</small>` : ''}
+                        `;
+                        
+                        updateLoaderLog(`Found ${allComponents.length} components. Rendering...`);
+                        updateStats();
+                        renderComponents(allComponents);
+                        
+                        const elapsedTime = Date.now() - startTime;
+                        const remainingTime = Math.max(0, minLoadTime - elapsedTime);
+                        
+                        setTimeout(() => {
+                            hideLoader();
+                        }, remainingTime);
+
+                    } catch (error) {
+                        console.error('Error:', error);
+                        const elapsedTime = Date.now() - startTime;
+                        const remainingTime = Math.max(0, minLoadTime - elapsedTime);
+
+                        setTimeout(() => {
+                            hideLoader(); 
+                            document.getElementById('componentGrid').innerHTML = `
+                                <div class="empty-state">
+                                    <div class="empty-state-icon">⚠️</div>
+                                    <div class="empty-state-title">${translations[currentLang]['empty.error']}</div>
+                                    <p class="empty-state-text">${error.message}</p>
+                                </div>
+                            `;
+                        }, remainingTime);
+                    }
+                }
+
+                function updateStats() {
+                    const htmlCount = allComponents.filter(c => c.type === 'html').length;
+                    const cssCount = allComponents.filter(c => c.type === 'css').length;
+                    const scssCount = allComponents.filter(c => c.type === 'scss').length;
+                    
+                    document.getElementById('totalCount').textContent = allComponents.length;
+                    document.getElementById('htmlCount').textContent = htmlCount;
+                    document.getElementById('cssCount').textContent = cssCount;
+                    document.getElementById('scssCount').textContent = scssCount;
+                }
+
+                function renderComponents(componentsToRender) {
+                    const grid = document.getElementById('componentGrid');
+                    grid.innerHTML = '';
+
+                    if (componentsToRender.length === 0) {
+                        grid.innerHTML = `
+                            <div class="empty-state">
+                                <div class="empty-state-icon">🔍</div>
+                                <div class="empty-state-title">${translations[currentLang]['empty.noResults']}</div>
+                                <p class="empty-state-text">${translations[currentLang]['empty.tryAdjusting']}</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    componentsToRender.forEach(component => {
+                        const card = document.createElement('div');
+                        card.className = 'component-card';
+                        card.onclick = () => window.open(component.url, '_blank');
+                        
+                        card.innerHTML = `
+                            <div class="component-icon">${component.icon}</div>
+                            <div class="component-name">${component.name}</div>
+                            <div class="component-path">${component.path}</div>
+                            <div class="component-meta">
+                                <span class="component-tag type-${component.type}">${component.type.toUpperCase()}</span>
+                                ${component.rootLabel ? `<span class="component-tag">${component.rootLabel}</span>` : ''}
+                                <span class="component-size">${formatSize(component.size)}</span>
+                            </div>
+                        `;
+                        
+                        grid.appendChild(card);
+                    });
+                }
+
+                function filterByType(type) {
+                    currentFilter = type;
+                    
+                    document.querySelectorAll('.filter-tab').forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+                    event.target.classList.add('active');
+
+                    applyFilters();
+                }
+
+                function applyFilters() {
+                    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                    
+                    let filtered = allComponents;
+
+                    if (currentFilter !== 'all') {
+                        filtered = filtered.filter(c => c.type === currentFilter);
+                    }
+
+                    if (searchTerm) {
+                        filtered = filtered.filter(c =>
+                            c.name.toLowerCase().includes(searchTerm) ||
+                            c.path.toLowerCase().includes(searchTerm) ||
+                            (c.rootLabel && c.rootLabel.toLowerCase().includes(searchTerm))
+                        );
+                    }
+
+                    renderComponents(filtered);
+                }
+
+                function searchComponents() {
+                    applyFilters();
+                }
+
+                document.getElementById('searchInput').addEventListener('input', searchComponents);
+                window.addEventListener('DOMContentLoaded', init)
               </script>
           </body>
           </html>
