@@ -86,8 +86,8 @@ jobs:
                     lowerName.endsWith('.scss') ||
                     (lowerName.endsWith('.zip') && 
                      (lowerName === 'resources.zip' || 
-                      lowerName === 'Main.zip' || 
-                      lowerName === 'Sub.zip'))) {
+                      lowerName === 'main.zip' || 
+                      lowerName === 'sub.zip'))) {
                   componentFiles.push({
                     name: item.name,
                     path: item.path,
