@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html lang="ko">
 
+<!--
+	# 프로젝트명 : 이것이 실무 프로젝트이다
+	# 파일설명 : 2025 고1 미래유망분야 고졸인력양성과정  PBL
+	# 파일버전 : 1.0.0
+	# 생성일 : 2025.05.31
+	# 생성자 : Team: Swjb_CivilOneStop
+	# 수정일 : - 2025/12/11
+	# 수정자 : - Team: PMO
+	# 작업내용 : - Edited <meta> tags
+	-->
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
+    <meta name="keywords" content="2025 고1 미래유망분야 고졸인력양성과정 PBL 제안요청서를 읽고 실제 프로젝트로 구현한다." />
+    <meta name=" description" content="2025 고1 미래유망분야 고졸인력양성과정, 실제제안요청서, 실무프로젝트, 팀프로젝트" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="apple-touch-icon" sizes="180x180" href="resources/img/guide/favicon_180.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="resources/img/guide/favicon_512.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="resources/img/guide/favicon_192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="resources/img/guide/favicon_32.png">
-    <title>메인3-2 - KRDS</title>
-    <link href="resources/css/swiper-bundle.min.css" type="text/css" rel="stylesheet" />
-    <link href="resources/css/pattern_css.css" type="text/css" rel="stylesheet" />
+    <meta name="author" content="Team: PMO - 유동윤">
+    <link rel="shortcut icon" type="image/x-icon" href="resources/img/guide/favicon.ico">
+    <link rel="icon" type="image/png" sizes="200x200" href="resources/img/guide/favicon_200.png">
+    <title>이것이 실무 프로젝트이다</title>
+    <link href="resources/css/pattern.css" type="text/css" rel="stylesheet" />
 </head>
 
 <body>
@@ -57,161 +66,6 @@
     <!-- Load Header and Footer -->
     <script src="layout-loader.js"></script>
 
-    <script>
-        // Your existing Swiper code
-        //행목주택
-        const dBanHouseSwiper = new Swiper('#d-ban-house .swiper', {
-            slidesPerView: 1,
-            spaceBetween: 16,
-            speed: 400,
-            loop: true,
-            autoplay: {
-                delay: 3500,
-                disableOnInteraction: false,
-            },
-            navigation: {
-                nextEl: '#d-ban-house .swiper-button-next',
-                prevEl: '#d-ban-house .swiper-button-prev',
-            },
-            pagination: {
-                el: "#d-ban-house .swiper-pagination",
-                type: "fraction",
-            },
-        });
-        const $dBanHouseSwiperPlay = document.querySelector('#d-ban-house .swiper-button-play');
-        const $dBanHouseSwiperStop = document.querySelector('#d-ban-house .swiper-button-stop');
-
-        if ($dBanHouseSwiperPlay) {
-            $dBanHouseSwiperPlay.style.display = "none";
-
-            $dBanHouseSwiperPlay.addEventListener("click", () => {
-                dBanHouseSwiper.autoplay.start();
-                $dBanHouseSwiperStop.style.display = "";
-                $dBanHouseSwiperPlay.style.display = "none";
-            });
-
-            $dBanHouseSwiperStop.addEventListener("click", () => {
-                dBanHouseSwiper.autoplay.stop();
-                $dBanHouseSwiperStop.style.display = "none";
-                $dBanHouseSwiperPlay.style.display = "";
-            });
-        }
-
-        //전기요금
-        const dBanContsSwiper = new Swiper('#d-ban-conts .swiper', {
-            slidesPerView: 1,
-            spaceBetween: 16,
-            speed: 400,
-            loop: true,
-            autoplay: {
-                delay: 2500,
-                disableOnInteraction: false,
-            },
-            navigation: {
-                nextEl: '#d-ban-conts .swiper-button-next',
-                prevEl: '#d-ban-conts .swiper-button-prev',
-            },
-            pagination: {
-                el: "#d-ban-conts .swiper-pagination",
-                type: "fraction",
-            },
-        });
-        const $dBanContsSwiperPlay = document.querySelector('#d-ban-conts .swiper-button-play');
-        const $dBanContsSwiperStop = document.querySelector('#d-ban-conts .swiper-button-stop');
-
-        if ($dBanContsSwiperPlay) {
-            $dBanContsSwiperPlay.style.display = "none";
-
-            $dBanContsSwiperPlay.addEventListener("click", () => {
-                dBanContsSwiper.autoplay.start();
-                $dBanContsSwiperStop.style.display = "";
-                $dBanContsSwiperPlay.style.display = "none";
-            });
-
-            $dBanContsSwiperStop.addEventListener("click", () => {
-                dBanContsSwiper.autoplay.stop();
-                $dBanContsSwiperStop.style.display = "none";
-                $dBanContsSwiperPlay.style.display = "";
-            });
-        }
-
-        //복합 콘텐츠
-        const contentsSwiper = new Swiper('.contents-list .swiper', {
-            slidesPerView: 3,
-            spaceBetween: 24,
-            speed: 400,
-            breakpoints: {
-                300: {
-                    slidesPerView: "auto",
-                },
-                1024: {
-                    slidesPerView: 2,
-                },
-                1300: {
-                    slidesPerView: 3,
-                },
-            },
-            navigation: {
-                nextEl: '.contents-list .swiper-button-next',
-                prevEl: '.contents-list .swiper-button-prev',
-            },
-            pagination: {
-                el: ".contents-list .swiper-pagination",
-                clickable: true,
-            },
-        });
-
-        //서비스
-        const serviceSwiper = new Swiper('.service-list .swiper', {
-            spaceBetween: 24,
-            speed: 400,
-            loop: true,
-            breakpoints: {
-                300: {
-                    slidesPerView: 1
-                },
-                600: {
-                    slidesPerView: 2
-                },
-                1024: {
-                    slidesPerView: 3
-                },
-                1300: {
-                    slidesPerView: 4
-                },
-            },
-            autoplay: {
-                delay: 2500,
-                disableOnInteraction: false,
-            },
-            navigation: {
-                nextEl: '.service-list .swiper-button-next',
-                prevEl: '.service-list .swiper-button-prev',
-            },
-            pagination: {
-                el: ".service-list .swiper-pagination",
-                type: "fraction",
-            },
-        });
-        const $serviceSwiperPlay = document.querySelector('.service-list .swiper-button-play');
-        const $serviceSwiperStop = document.querySelector('.service-list .swiper-button-stop');
-
-        if ($serviceSwiperPlay) {
-            $serviceSwiperPlay.style.display = "none";
-
-            $serviceSwiperPlay.addEventListener("click", () => {
-                serviceSwiper.autoplay.start();
-                $serviceSwiperStop.style.display = "";
-                $serviceSwiperPlay.style.display = "none";
-            });
-
-            $serviceSwiperStop.addEventListener("click", () => {
-                serviceSwiper.autoplay.stop();
-                $serviceSwiperStop.style.display = "none";
-                $serviceSwiperPlay.style.display = "";
-            });
-        }
-    </script>
 
 </body>
 

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="shortcut icon" type="image/x-icon" href="resources/img/guide/favicon.ico">
+    <link rel="icon" type="image/png" sizes="200x200" href="resources/img/guide/favicon_200.png">
+    <title>수원특례시청</title>
+    <link href="resources/css/pattern.css" type="text/css" rel="stylesheet" />
+    <style>
+        /* iframe 스타일링 */
+        #header-frame,
+        #footer-frame {
+            width: 100%;
+            border: none;
+            display: block;
+            overflow: hidden;
+        }
+
+        #header-frame {
+            height: 200px;
+            /* 헤더 높이에 맞게 조정 */
+        }
+
+        #footer-frame {
+            height: 400px;
+            /* 푸터 높이에 맞게 조정 */
+        }
+    </style>
+    <script>
+        // iframe 높이 자동 조절
+        function resizeIframe(iframe) {
+            iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+        }
+    </script>
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 본문 바로가기 영역  -->
+        <div id="skip-nav">
+            <a href="#container">본문 바로가기</a>
+        </div>
+
+        <!-- 헤더 iframe -->
+        <iframe id="header-frame" src="header.html" onload="resizeIframe(this)" scrolling="no"></iframe>
+
+        <!-- 컨테이너 영역 -->
+        <div id="container">
+            <div class="inner">
+                <h2>컨텐츠 영역</h2>
+                <p>여기에 페이지별 콘텐츠가 들어갑니다.</p>
+            </div>
+        </div>
+
+        <!-- 푸터 iframe -->
+        <iframe id="footer-frame" src="footer.html" onload="resizeIframe(this)" scrolling="no"></iframe>
+    </div>
+
+    <!-- 스크립트 : 라이브러리 -->
+    <script src="resources/js/pattern/jquery.min.js"></script>
+
+    <!-- 스크립트 : 패턴 페이지 -->
+
+    <script src="resources/js/pattern/ui-pattern-script.js"></script>
+
+
+    <!-- 스크립트 : 컴포넌트 -->
+    <script src="resources/js/component/ui-script.js"></script>
+</body>
+
+</html>
